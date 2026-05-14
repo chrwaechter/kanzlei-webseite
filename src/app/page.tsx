@@ -301,7 +301,7 @@ export default function LandingPage() {
           {/* Left: decorative block */}
           <div style={{
             position: "relative",
-            marginBottom: isMobile ? 48 : 0, // Platz für die floating card
+            marginBottom: isMobile ? 80 : 0, // Platz für die floating card
           }}>
             <div style={{
               width: "100%", paddingBottom: "110%",
@@ -341,7 +341,7 @@ export default function LandingPage() {
             {/* Floating address card */}
             <div style={{
               position: "absolute",
-              bottom: isMobile ? -60 : -24,
+              bottom: isMobile ? -92 : -24,
               right: isMobile ? 0 : -24,
               background: "var(--color-text)", color: "#fff",
               padding: "20px 28px",
