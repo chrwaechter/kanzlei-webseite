@@ -6,8 +6,8 @@ const PASSWORD_PROTECT = process.env.PASSWORD_PROTECT === 'true'
 const AUTH_USER = process.env.BASIC_AUTH_USER || ''
 const AUTH_PASS = process.env.BASIC_AUTH_PASS || ''
 
-export function proxysimtory(request: NextRequest) {
-  // 1. Passwortschutz (läuft vor allem anderen)
+export function proxy(request: NextRequest) {
+  // 1. Passwortschutz
   if (PASSWORD_PROTECT) {
     const authHeader = request.headers.get('authorization')
 
@@ -16,7 +16,6 @@ export function proxysimtory(request: NextRequest) {
       const [user, pass] = atob(authValue).split(':')
 
       if (user === AUTH_USER && pass === AUTH_PASS) {
-        // Auth ok → weiter zur Maintenance-Prüfung
         if (MAINTENANCE_MODE) {
           return NextResponse.rewrite(new URL('/maintenance', request.url))
         }
@@ -27,12 +26,12 @@ export function proxysimtory(request: NextRequest) {
     return new NextResponse('Authentication required', {
       status: 401,
       headers: {
-        'WWW-Authenticate': 'Basic realm="Simtory - Geschützter Bereich"',
+        'WWW-Authenticate': 'Basic realm="Kanzlei Wächter - Geschützter Bereich"',
       },
     })
   }
 
-  // 2. Maintenance-Mode (wenn kein Passwortschutz aktiv)
+  // 2. Maintenance-Mode
   if (MAINTENANCE_MODE) {
     return NextResponse.rewrite(new URL('/maintenance', request.url))
   }
